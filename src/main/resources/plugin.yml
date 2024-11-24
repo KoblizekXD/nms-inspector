@@ -1,0 +1,6 @@
+name: NmsInspector
+version: 1.0.0
+main: lol.koblizek.nmsinspector.NmsInspectorPlugin
+description: Inspect Java classes in Minecraft server on runtime.
+author: aa55h
+api-version: 1.21.3
