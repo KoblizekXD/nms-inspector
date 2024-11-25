@@ -15,7 +15,7 @@ commands:
     permission: nmsinspector.allow
   classdata:
     description: Decompile a class.
-    usage: /classdata <class>
+    usage: /classdata <class> [methods...]
     permission: nmsinspector.allow
   packageinfo:
     description: Get information about a package.

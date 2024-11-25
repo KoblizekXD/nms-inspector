@@ -16,7 +16,7 @@ public final class ComponentHighlighter {
             "protected", "public", "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this",
             "throw", "throws", "transient", "try", "void", "volatile", "while");
     
-    public static final List<String> BRACES = Arrays.asList("{", "}", "(", ")", "[", "]", ";");
+    private static final List<String> BRACES = Arrays.asList("{", "}", "(", ")", "[", "]", ";");
     
     public static Component highlight(Component component) {
         String res = MiniMessage.miniMessage().serialize(component);

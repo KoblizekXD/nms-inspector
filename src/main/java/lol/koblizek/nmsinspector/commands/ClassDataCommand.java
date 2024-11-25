@@ -3,6 +3,7 @@ package lol.koblizek.nmsinspector.commands;
 import lol.koblizek.nmsinspector.NmsInspectorPlugin;
 import lol.koblizek.nmsinspector.util.ComponentHighlighter;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,9 +14,15 @@ import org.jetbrains.java.decompiler.main.extern.IContextSource;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
 import org.jetbrains.java.decompiler.main.extern.IResultSaver;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.jar.Manifest;
 
@@ -34,7 +41,7 @@ public class ClassDataCommand implements CommandExecutor {
         Bukkit.getAsyncScheduler().runNow(plugin, task -> {
             var saver = new ComponentResultSaver();
             Fernflower fernflower = new Fernflower(saver, IFernflowerPreferences.getDefaults(), IFernflowerLogger.NO_OP);
-            fernflower.addSource(new InlineContextSource(args[0]));
+            fernflower.addSource(new InlineContextSource(args));
             fernflower.decompileContext();
             sender.sendMessage(ComponentHighlighter.highlight(saver.getComponent()));
         });
@@ -111,9 +118,11 @@ public class ClassDataCommand implements CommandExecutor {
     static class InlineContextSource implements IContextSource {
 
         private final String type;
+        private final List<String> keepSymbols;
 
-        public InlineContextSource(String type) {
-            this.type = type;
+        public InlineContextSource(String[] args) {
+            this.type = args[0];
+            this.keepSymbols = Arrays.asList((String[]) ArrayUtils.subarray(args, 1, args.length));
         }
         
         @Override
@@ -128,6 +137,22 @@ public class ClassDataCommand implements CommandExecutor {
 
         @Override
         public InputStream getInputStream(String resource) {
+            if (!keepSymbols.isEmpty()) {
+                try (var stream = getClass().getClassLoader().getResourceAsStream(type.replace('.', '/') + ".class")) {
+                    if (stream == null) return null;
+                    var reader = new ClassReader(stream);
+                    ClassNode node = new ClassNode();
+                    reader.accept(node, 0);
+                    
+                    node.methods = node.methods.stream().filter(method -> keepSymbols.contains(method.name)).toList();
+                    
+                    ClassWriter writer = new ClassWriter(0);
+                    node.accept(writer);
+                    return new ByteArrayInputStream(writer.toByteArray());
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }
             return getClass().getClassLoader().getResourceAsStream(type.replace('.', '/') + ".class");
         }
 
