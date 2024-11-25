@@ -4,3 +4,16 @@ main: lol.koblizek.nmsinspector.NmsInspectorPlugin
 description: Inspect Java classes in Minecraft server on runtime.
 author: aa55h
 api-version: 1.21.3
+permissions:
+  nmsinspector.allow:
+    description: Allows player to use NmsInspector's commands.
+    default: op
+commands:
+  classinfo:
+    description: Get information about a class.
+    usage: /classinfo <class>
+    permission: nmsinspector.allow
+  classdata:
+    description: Decompile a class.
+    usage: /classdata <class>
+    permission: nmsinspector.allow
