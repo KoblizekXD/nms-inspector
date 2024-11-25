@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     paperweight.paperDevBundle("1.21.3-R0.1-SNAPSHOT")
+    compileOnly("org.vineflower:vineflower:1.10.1")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

@@ -15,9 +15,11 @@ commands:
     permission: nmsinspector.allow
   classdata:
     description: Decompile a class.
-    usage: /classdata <class> <filter>
+    usage: /classdata <class>
     permission: nmsinspector.allow
   packageinfo:
     description: Get information about a package.
     usage: /packageinfo <package>
     permission: nmsinspector.allow
+libraries:
+  - 'org.vineflower:vineflower:1.10.1'
