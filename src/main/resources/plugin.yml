@@ -11,7 +11,7 @@ permissions:
 commands:
   classinfo:
     description: Get information about a class.
-    usage: /classinfo <class>
+    usage: /classinfo <class> [filter]
     permission: nmsinspector.allow
   classdata:
     description: Decompile a class.
