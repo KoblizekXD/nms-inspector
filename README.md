@@ -27,11 +27,17 @@ The `filter` is an optional parameter which can be any of these values:
     - `constructors` - Displays all constructors of the class.
     - `*` - Displays all methods, fields and constructors of the class.  
 The default value for `filter` is `none`.
+![Example](img/classinfo.png)
+*Example use of `/classinfo org.bukkit.Bukkit fields`*
 - `/classdata <class> [methods...]` - Decompiles the given class and displays the source code.
 The `methods` parameter is an optional parameter which can be used to specify which methods
 to keep in the decompiled source code. If no methods are specified, all methods will be kept.
+![Example](img/classdata.png)
+*Example use of `/classdata lol.koblizek.nmsinspector.NmsInspectorPlugin`*
 - `/packageinfo <package>` - Displays summary of information about the `package`, as well as
 all classes in the given package(non-recursive).
+![Example](img/packageinfo.png)
+*Example use of `/packageinfo org.bukkit`, the list of classes continues*
 
 ## License
 
