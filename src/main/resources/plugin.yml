@@ -17,3 +17,7 @@ commands:
     description: Decompile a class.
     usage: /classdata <class> <filter>
     permission: nmsinspector.allow
+  packageinfo:
+    description: Get information about a package.
+    usage: /packageinfo <package>
+    permission: nmsinspector.allow
